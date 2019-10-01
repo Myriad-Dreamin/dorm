@@ -7,7 +7,20 @@ import (
 )
 
 func (t *Table) fieldsTemplate(obj ORMObject, fields []string) (string, []interface{}, error) {
+	objType := reflect.TypeOf(obj)
 	objValue := reflect.ValueOf(obj)
+
+	if objType.Kind() == reflect.Ptr {
+		if objValue.IsNil() {
+			return "", nil, errors.New("nil pointer object")
+		}
+		objType = objType.Elem()
+		objValue = objValue.Elem()
+	}
+
+	if objType.Kind() != reflect.Struct {
+		return "", nil, errors.New("not available struct object")
+	}
 
 	var b = new(bytes.Buffer)
 	var args = make([]interface{}, 0, len(fields))
