@@ -6,6 +6,50 @@ import (
 	"time"
 )
 
+func BenchmarkModelScope_BuildFind(b *testing.B) {
+
+	logger := NewFmtLogger()
+	db, err := Open(dsn, logger)
+	if err != nil {
+		b.Error(err)
+		return
+	}
+
+	m, err := db.Model(&User{ID:1})
+	if err != nil {
+		b.Error(err)
+		return
+	}
+
+	b.ResetTimer()
+
+	for i := 0; i < b.N; i ++ {
+		_ = m.Scope().BuildFind()
+	}
+}
+
+func BenchmarkModelScope_Find(b *testing.B) {
+
+	logger := NewNopLogger()
+	db, err := Open(dsn, logger)
+	if err != nil {
+		b.Error(err)
+		return
+	}
+
+	m, err := db.Model(&User{ID:1})
+	if err != nil {
+		b.Error(err)
+		return
+	}
+	t := m.Scope().BuildFind()
+	b.ResetTimer()
+
+	for i := 0; i < b.N; i ++ {
+		_ = t.Find(&User{})
+	}
+}
+
 func TestModelScope_Find(t *testing.T) {
 
 	logger := NewFmtLogger()

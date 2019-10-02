@@ -2,34 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="cc521ae4-8b23-4343-8ac3-cccf49c6ef4b" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/deployment.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/webServers.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/db.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/expr.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/fetchfunc.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/field-template.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/logger.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/model-delete.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/model-find.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/model-insert.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/model-update-fields.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/model.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/model_test.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mtm-relationship-count.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mtm-relationship-find.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mtm-relationship.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mtm-relationship_test.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/readCommon.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test/test.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test/test_config.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_config.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/common.go" beforeDir="false" afterPath="$PROJECT_DIR$/common.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/connection.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sql.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/table.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/model_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/model_test.go" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
