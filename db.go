@@ -47,6 +47,17 @@ func IdleOpen(options ...interface{}) (*DB, error) {
 	return db, nil
 }
 
+func FromRaw(rdb *sql.DB, options ...interface{}) (*DB, error) {
+	db := &DB{DB: rdb}
+	for _, option := range options {
+		if t, ok := option.(Logger); ok {
+			db.logger = t
+		}
+	}
+	return db, nil
+}
+
+
 func (db *DB) Close() error {
 	return db.DB.Close()
 }
@@ -120,6 +131,13 @@ func (db *DB) QueryRowStatement(statement string, fetchHandler []interface{}, ar
 		return err
 	}
 	return stmt.QueryRow(args...).Scan(fetchHandler...)
+}
+
+func (db *DB) Statement(tables ...*TableObject) (t *Statement) {
+	t = &Statement{db:db}
+	t.registerTables(tables)
+	t.tables = tables
+	return
 }
 
 func (db *DB) Model(d ORMObject) (t *Model, err error) {

@@ -4,7 +4,11 @@ import (
 	//"fmt"
 	"testing"
 	"time"
+
+	_ "net/http/pprof"
 )
+
+
 
 func BenchmarkModelScope_BuildFind(b *testing.B) {
 
