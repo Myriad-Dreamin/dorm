@@ -2,8 +2,20 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="cc521ae4-8b23-4343-8ac3-cccf49c6ef4b" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/mtm-relationship-delete-set.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mtm-relationship-insert-set.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mtm-relationship-inserts-set.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/n-placeholder.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/n-placeholder_test.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/model_test.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/field-template.go" beforeDir="false" afterPath="$PROJECT_DIR$/field-template.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model-delete.go" beforeDir="false" afterPath="$PROJECT_DIR$/model-delete.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model-update-fields.go" beforeDir="false" afterPath="$PROJECT_DIR$/model-update-fields.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mtm-relationship-count.go" beforeDir="false" afterPath="$PROJECT_DIR$/mtm-relationship-count.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mtm-relationship-find.go" beforeDir="false" afterPath="$PROJECT_DIR$/mtm-relationship-find.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mtm-relationship.go" beforeDir="false" afterPath="$PROJECT_DIR$/mtm-relationship.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mtm-relationship_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/mtm-relationship_test.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/readCommon.go" beforeDir="false" afterPath="$PROJECT_DIR$/readCommon.go" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -35,6 +47,11 @@
     <property name="go.tried.to.enable.integration.vgo.integrator" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
   </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="E:\project\go\src\github.com\Myriad-Dreamin\dorm" />
+    </key>
+  </component>
   <component name="RunDashboard">
     <option name="ruleStates">
       <list>
@@ -47,19 +64,8 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Go Test.TestModelScope_Find in github.com/Myriad-Dreamin/dorm">
-    <configuration name="TestModelScope_Find in github.com/Myriad-Dreamin/dorm" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
-      <module name="dorm" />
-      <working_directory value="$PROJECT_DIR$" />
-      <framework value="gotest" />
-      <kind value="PACKAGE" />
-      <package value="github.com/Myriad-Dreamin/dorm" />
-      <directory value="$PROJECT_DIR$/" />
-      <filePath value="$PROJECT_DIR$/" />
-      <pattern value="^TestModelScope_Find$" />
-      <method v="2" />
-    </configuration>
-    <configuration name="TestRelationshipScopeFind_Find in github.com/Myriad-Dreamin/dorm" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Go Test.TestRelationshipScopeInsertsSet in github.com/Myriad-Dreamin/dorm">
+    <configuration name="TestRelationshipScopeFind_Find in github.com/Myriad-Dreamin/dorm (1)" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="dorm" />
       <working_directory value="$PROJECT_DIR$" />
       <framework value="gotest" />
@@ -70,10 +76,57 @@
       <pattern value="^TestRelationshipScopeFind_Find$" />
       <method v="2" />
     </configuration>
+    <configuration name="TestRelationshipScopeInsertSet in github.com/Myriad-Dreamin/dorm" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="dorm" />
+      <working_directory value="$PROJECT_DIR$" />
+      <framework value="gotest" />
+      <kind value="PACKAGE" />
+      <package value="github.com/Myriad-Dreamin/dorm" />
+      <directory value="$PROJECT_DIR$/" />
+      <filePath value="$PROJECT_DIR$/" />
+      <pattern value="^TestRelationshipScopeInsertSet$" />
+      <method v="2" />
+    </configuration>
+    <configuration name="TestRelationshipScopeInsertsSet in github.com/Myriad-Dreamin/dorm" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="dorm" />
+      <working_directory value="$PROJECT_DIR$" />
+      <framework value="gotest" />
+      <kind value="PACKAGE" />
+      <package value="github.com/Myriad-Dreamin/dorm" />
+      <directory value="$PROJECT_DIR$/" />
+      <filePath value="$PROJECT_DIR$/" />
+      <pattern value="^TestRelationshipScopeInsertsSet$" />
+      <method v="2" />
+    </configuration>
+    <configuration name="TestRelationshipScopeSet in github.com/Myriad-Dreamin/dorm" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="dorm" />
+      <working_directory value="$PROJECT_DIR$" />
+      <framework value="gotest" />
+      <kind value="PACKAGE" />
+      <package value="github.com/Myriad-Dreamin/dorm" />
+      <directory value="$PROJECT_DIR$/" />
+      <filePath value="$PROJECT_DIR$/" />
+      <pattern value="^TestRelationshipScopeSet$" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Test_nPlaceHolder in github.com/Myriad-Dreamin/dorm" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="dorm" />
+      <working_directory value="$PROJECT_DIR$" />
+      <framework value="gotest" />
+      <kind value="PACKAGE" />
+      <package value="github.com/Myriad-Dreamin/dorm" />
+      <directory value="$PROJECT_DIR$/" />
+      <filePath value="$PROJECT_DIR$/" />
+      <pattern value="^Test_nPlaceHolder$" />
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Go Test.TestModelScope_Find in github.com/Myriad-Dreamin/dorm" />
-        <item itemvalue="Go Test.TestRelationshipScopeFind_Find in github.com/Myriad-Dreamin/dorm" />
+        <item itemvalue="Go Test.TestRelationshipScopeInsertsSet in github.com/Myriad-Dreamin/dorm" />
+        <item itemvalue="Go Test.TestRelationshipScopeInsertSet in github.com/Myriad-Dreamin/dorm" />
+        <item itemvalue="Go Test.TestRelationshipScopeSet in github.com/Myriad-Dreamin/dorm" />
+        <item itemvalue="Go Test.TestRelationshipScopeFind_Find in github.com/Myriad-Dreamin/dorm (1)" />
+        <item itemvalue="Go Test.Test_nPlaceHolder in github.com/Myriad-Dreamin/dorm" />
       </list>
     </recent_temporary>
   </component>

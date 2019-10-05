@@ -29,7 +29,7 @@ func defaultValue(fieldType reflect.Type) string {
 	return ""
 }
 
-func (s *ModelScope) fullFields() string {
+func (s *common) fullFields() string {
 	var fs = make([]string, len(s.typeInfoSlice))
 	for i, fieldType := range s.typeInfoSlice {
 		fs[i] = "ifnull("+ fieldType.ColumnName +", "+ defaultValue(fieldType.Type) +")"
@@ -38,11 +38,11 @@ func (s *ModelScope) fullFields() string {
 	return strings.Join(fs, ",")
 }
 
-func (s *ModelScope) fieldsS(fields []string) string {
+func (s *common) fieldsS(fields []string) string {
 	var fs = make([]string, len(s.typeInfoSlice))
 	for i, field := range fields {
 		if fieldType, ok := s.typeInfo[field]; !ok {
-			panic(fmt.Errorf("bad field %v into %T", field, s.ori))
+			panic(fmt.Errorf("bad field %v into %v", field, s.addressableType))
 		} else {
 			// if type not equal ...
 			fs[i] = "ifnull("+ fieldType.ColumnName +", "+ defaultValue(fieldType.Type) +")"
@@ -52,7 +52,7 @@ func (s *ModelScope) fieldsS(fields []string) string {
 	return strings.Join(fs, ",")
 }
 
-func (s *ModelScope) fullFieldsTemplate() string {
+func (s *common) fullFieldsTemplate() string {
 	var fs = make([]string, len(s.typeInfoSlice))
 	for i, fieldType := range s.typeInfoSlice {
 		fs[i] = fieldType.ColumnName + " = ?"
@@ -61,7 +61,7 @@ func (s *ModelScope) fullFieldsTemplate() string {
 	return strings.Join(fs, ",")
 }
 
-func (s *ModelScope) fieldsTemplate(fields []string) string {
+func (s *common) fieldsTemplate(fields []string) string {
 	var b = new(bytes.Buffer)
 	for i, field := range fields {
 		if i != 0 {
@@ -74,7 +74,19 @@ func (s *ModelScope) fieldsTemplate(fields []string) string {
 	return b.String()
 }
 
-func (s *ModelScope) fullValues(obj ORMObject) ([]interface{}, error) {
+func (s *common) fieldsColumns(fields []string) string {
+	var b = new(bytes.Buffer)
+	for i, field := range fields {
+		if i != 0 {
+			b.WriteByte(',')
+		}
+		b.WriteString(field)
+	}
+
+	return b.String()
+}
+
+func (s *common) fullValues(obj ORMObject) ([]interface{}, error) {
 
 	if reflect.TypeOf(obj) != s.addressableType {
 		return nil, errors.New("type error")
@@ -92,7 +104,7 @@ func (s *ModelScope) fullValues(obj ORMObject) ([]interface{}, error) {
 	return args, nil
 }
 
-func (s *ModelScope) fieldsValues(obj ORMObject, fields []string) ([]interface{}, error) {
+func (s *common) fieldsValues(obj ORMObject, fields []string) ([]interface{}, error) {
 
 	if reflect.TypeOf(obj) != s.addressableType {
 		return nil, errors.New("type error")
@@ -116,7 +128,7 @@ func (s *ModelScope) fieldsValues(obj ORMObject, fields []string) ([]interface{}
 	return args, nil
 }
 
-func (s *ModelScope) fieldsTemplateI(obj ORMObject, fields []string) (string, []interface{}, reflect.Value, error) {
+func (s *common) fieldsTemplateI(obj ORMObject, fields []string) (string, []interface{}, reflect.Value, error) {
 
 	if reflect.TypeOf(obj) != s.addressableType {
 		return "", nil, reflect.Value{}, errors.New("type error")
@@ -151,7 +163,7 @@ func (s *ModelScope) fieldsTemplateI(obj ORMObject, fields []string) (string, []
 	}
 }
 
-func (s *ModelScope) fieldsTemplateV(valueObj ORMObject, fields []string) (string, []interface{}, error) {
+func (s *common) fieldsTemplateV(valueObj ORMObject, fields []string) (string, []interface{}, error) {
 
 	if reflect.TypeOf(valueObj) != s.valueType {
 		return "", nil, errors.New("type error")

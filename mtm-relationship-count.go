@@ -16,12 +16,19 @@ func (s *ManyToManyRelationshipScope) BuildCount() (t *ManyToManyRelationshipSco
 }
 
 func (s *ManyToManyRelationshipScopeCount) Limit(sizeP interface{}) *ManyToManyRelationshipScopeCount {
-	s.args[LimitPosition] = sizeP
+	s.args[s.whereSize + LimitPosition] = sizeP
+	s.limit = sizeP
 	return s
 }
 
 func (s *ManyToManyRelationshipScopeCount) Offset(offsetP interface{}) *ManyToManyRelationshipScopeCount {
 	s.args[OffsetPosition] = offsetP
+	s.offset = offsetP
+	return s
+}
+
+func (s *ManyToManyRelationshipScopeCount) Rebind(offset int, offsetP interface{}) *ManyToManyRelationshipScopeCount {
+	s.args[offset] = offsetP
 	return s
 }
 
@@ -35,17 +42,15 @@ func (s *ManyToManyRelationshipScopeCount) Order(order string) *ManyToManyRelati
 	return s
 }
 
-func (s *ManyToManyRelationshipScopeCount) Rebind(offset int, offsetP interface{}) *ManyToManyRelationshipScopeCount {
-	s.args[offset] = offsetP
-	return s
-}
-
-func (s *ManyToManyRelationshipScopeCount) Count(args ...interface{}) (count int, err error) {
+func (s *ManyToManyRelationshipScopeCount) Count(args ...interface{}) (count int64, err error) {
 	if s.Error != nil {
 		err = s.Error
 		return
 	}
 
-	err = s.db.QueryRowStatement(s.decide(s.stmt), []interface{}{count}, append(args, s.args...)...)
+	s.args[s.whereSize + LimitPosition] = s.limit
+	s.args[s.whereSize + OffsetPosition] = s.offset
+	copy(s.args, args)
+	err = s.db.QueryRowStatement(s.decide(s.stmt), []interface{}{count}, s.args...)
 	return
 }

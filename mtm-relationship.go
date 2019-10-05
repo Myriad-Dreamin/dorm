@@ -32,6 +32,8 @@ func (r *ManyToManyRelationship) Partial(u ORMObject) (pr *ManyToManyRelationshi
 type ManyToManyRelationshipScope struct {
 	modelCommon
 	*ManyToManyRelationship
+	partialSet bool
+	fields []string
 	Error error
 }
 
@@ -40,6 +42,7 @@ func (r *ManyToManyRelationship) Anchor(u ORMObject) (s *ManyToManyRelationshipS
 		ManyToManyRelationship: r,
 	}
 	s.model = u
+	s.id = u.GetID()
 	s.limit = -1
 	s.offset = 0
 	return
@@ -76,6 +79,16 @@ func (s *ManyToManyRelationshipScope) ID(id interface{}) *ManyToManyRelationship
 	return s
 }
 
+func (s *ManyToManyRelationshipScope) Select (fields ...string) *ManyToManyRelationshipScope {
+	if len(fields) == 0 {
+		s.partialSet = false
+	} else {
+		s.partialSet = true
+		s.fields = fields
+	}
+	return s
+}
+
 func (s *ManyToManyRelationshipScope) Where(exp string) *ManyToManyRelationshipScope {
 	if len(s.whereExp) == 0 {
 		s.whereExp = exp
@@ -105,10 +118,22 @@ func (s *ManyToManyRelationshipScope) Order(order string) *ManyToManyRelationshi
 	return s
 }
 
-func (s *ManyToManyRelationshipScope) Find(result *[]uint, args ...interface{}) (aff int, err error) {
+func (s *ManyToManyRelationshipScope) Find(result *[]uint, args ...interface{}) (aff int64, err error) {
 	return s.BuildFind().Find(result, args...)
 }
 
-func (s *ManyToManyRelationshipScope) Count(args ...interface{}) (count int, err error) {
+func (s *ManyToManyRelationshipScope) InsertSet(idSet uint) (aff int64, err error) {
+	return s.BuildInsertSet().InsertSet(idSet)
+}
+
+func (s *ManyToManyRelationshipScope) DeleteSet(idSet uint) (aff int64, err error) {
+	return s.BuildDeleteSet().DeleteSet(idSet)
+}
+
+func (s *ManyToManyRelationshipScope) InsertsSet(idSet ...uint) (aff int64, err error) {
+	return s.BuildInsertsSet().InsertsSet(idSet...)
+}
+
+func (s *ManyToManyRelationshipScope) Count(args ...interface{}) (count int64, err error) {
 	return s.BuildCount().Count(args...)
 }

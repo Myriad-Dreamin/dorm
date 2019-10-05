@@ -18,7 +18,7 @@ func (s *ModelScope) BuildDelete() (t *ModelScopeDelete) {
 		return
 	}
 
-	t.stmt = "delete from " + s.tableName + s.whereLimitation("id", &t.args)
+	t.stmt = "delete from " + s.tableName + s.limitation("id", &t.args)
 	return
 }
 
@@ -34,6 +34,16 @@ func (s *ModelScopeDelete) Model(obj ORMObject) *ModelScopeDelete {
 
 func (s *ModelScopeDelete) ID(id interface{}) *ModelScopeDelete {
 	s.args[0] = id
+	return s
+}
+
+func (s *ModelScopeDelete) Limit(sizeP interface{}) *ModelScopeDelete {
+	s.args[LimitPosition] = sizeP
+	return s
+}
+
+func (s *ModelScopeDelete) Offset(offsetP interface{}) *ModelScopeDelete {
+	s.args[OffsetPosition] = offsetP
 	return s
 }
 

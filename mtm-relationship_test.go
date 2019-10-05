@@ -130,3 +130,65 @@ func TestRelationshipScopeFind_Find(t *testing.T) {
 	fmt.Println(g.decide(g.stmt), g.args)
 }
 
+
+func TestRelationshipScopeSet(t *testing.T) {
+	logger := NewFmtLogger()
+	db, err := IdleOpen(logger)
+	if err != nil {
+		logger.Error("error open", "error", err)
+	}
+
+	r, err := db.ManyToManyRelation(&Group{}, &User{}, RCommon{
+		UPK:       "group_id",
+		VPK:       "user_id",
+		TableName: "group_members",
+	})
+	if err != nil {
+		logger.Error("error open", "error", err)
+	}
+	g := r.RotateAndAnchor(&User{ID:7}).BuildDeleteSet()
+	fmt.Println(g.decide(g.stmt), g.args)
+}
+
+
+
+func TestRelationshipScopeInsertSet(t *testing.T) {
+	logger := NewFmtLogger()
+	db, err := IdleOpen(logger)
+	if err != nil {
+		logger.Error("error open", "error", err)
+	}
+
+	r, err := db.ManyToManyRelation(&Group{}, &User{}, RCommon{
+		UPK:       "group_id",
+		VPK:       "user_id",
+		TableName: "group_members",
+	})
+	if err != nil {
+		logger.Error("error open", "error", err)
+	}
+	g := r.RotateAndAnchor(&User{ID:7}).BuildInsertSet()
+	fmt.Println(g.stmt, g.args)
+}
+
+func TestRelationshipScopeInsertsSet(t *testing.T) {
+	logger := NewFmtLogger()
+	db, err := IdleOpen(logger)
+	if err != nil {
+		logger.Error("error open", "error", err)
+	}
+
+	r, err := db.ManyToManyRelation(&Group{}, &User{}, RCommon{
+		UPK:       "group_id",
+		VPK:       "user_id",
+		TableName: "group_members",
+	})
+	if err != nil {
+		logger.Error("error open", "error", err)
+	}
+	g := r.RotateAndAnchor(&User{ID:7}).ID(6).BuildInsertsSet()
+	//_,_ = g.InsertsSet(1, 2, 3)
+	fmt.Println(g.stmt, g.args)
+}
+
+

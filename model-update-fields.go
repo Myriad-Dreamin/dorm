@@ -15,9 +15,9 @@ func (s *ModelScope) BuildUpdateFields() (t *ModelScopeUpdateFields) {
 	t = &ModelScopeUpdateFields{ModelScope: s}
 
 	if s.partialSet {
-		t.stmt = "update `" + s.tableName + "` set " + s.fieldsTemplate(s.fields) + s.whereLimitation("id", &t.args)
+		t.stmt = "update `" + s.tableName + "` set " + s.fieldsTemplate(s.fields) + s.limitation("id", &t.args)
 	} else {
-		t.stmt = "update `" + s.tableName + "` set " + s.fullFieldsTemplate() + s.whereLimitation("id", &t.args)
+		t.stmt = "update `" + s.tableName + "` set " + s.fullFieldsTemplate() + s.limitation("id", &t.args)
 	}
 
 	return t
@@ -35,6 +35,16 @@ func (s *ModelScopeUpdateFields) Model(obj ORMObject) *ModelScopeUpdateFields {
 
 func (s *ModelScopeUpdateFields) ID(id interface{}) *ModelScopeUpdateFields {
 	s.args[0] = id
+	return s
+}
+
+func (s *ModelScopeUpdateFields) Limit(sizeP interface{}) *ModelScopeUpdateFields {
+	s.args[LimitPosition] = sizeP
+	return s
+}
+
+func (s *ModelScopeUpdateFields) Offset(offsetP interface{}) *ModelScopeUpdateFields {
+	s.args[OffsetPosition] = offsetP
 	return s
 }
 

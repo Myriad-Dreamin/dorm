@@ -19,12 +19,14 @@ func (s *ManyToManyRelationshipScope) BuildFind() (t *ManyToManyRelationshipScop
 }
 
 func (s *ManyToManyRelationshipScopeFind) Limit(sizeP interface{}) *ManyToManyRelationshipScopeFind {
-	s.args[LimitPosition] = sizeP
+	s.args[s.whereSize + LimitPosition] = sizeP
+	s.limit = sizeP
 	return s
 }
 
 func (s *ManyToManyRelationshipScopeFind) Offset(offsetP interface{}) *ManyToManyRelationshipScopeFind {
-	s.args[OffsetPosition] = offsetP
+	s.args[s.whereSize + OffsetPosition] = offsetP
+	s.offset = offsetP
 	return s
 }
 
@@ -43,14 +45,16 @@ func (s *ManyToManyRelationshipScopeFind) Order(order string) *ManyToManyRelatio
 	return s
 }
 
-func (s *ManyToManyRelationshipScopeFind) Find(result *[]uint, args ...interface{}) (aff int, err error) {
+func (s *ManyToManyRelationshipScopeFind) Find(result *[]uint, args ...interface{}) (aff int64, err error) {
 	if s.Error != nil {
 		err = s.Error
 		return
 	}
-
+	s.args[s.whereSize + LimitPosition] = s.limit
+	s.args[s.whereSize + OffsetPosition] = s.offset
+	copy(s.args, args)
 	err = s.db.QueryStatement(s.decide(s.stmt), func(row *sql.Rows) error {
-		if aff < len(*result) {
+		if int(aff) < len(*result) {
 			err := row.Scan(&(*result)[aff])
 			if err != nil {
 				return err
@@ -65,6 +69,6 @@ func (s *ManyToManyRelationshipScopeFind) Find(result *[]uint, args ...interface
 		}
 		aff++
 		return nil
-	}, append(args, s.args...)...)
+	}, s.args...)
 	return
 }
