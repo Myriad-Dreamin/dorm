@@ -15,6 +15,13 @@ func (s *ManyToManyRelationshipScope) BuildCount() (t *ManyToManyRelationshipSco
 	return
 }
 
+func (s *ManyToManyRelationshipScopeCount) ID(id interface{}) *ManyToManyRelationshipScopeCount {
+	// assert id in the where exp
+	s.args[s.whereSize - 1] = id
+	s.id = id
+	return s
+}
+
 func (s *ManyToManyRelationshipScopeCount) Limit(sizeP interface{}) *ManyToManyRelationshipScopeCount {
 	s.args[s.whereSize + LimitPosition] = sizeP
 	s.limit = sizeP

@@ -16,6 +16,13 @@ func (s *ManyToManyRelationshipScope) BuildDeleteSet() (t *ManyToManyRelationshi
 	return
 }
 
+func (s *ManyToManyRelationshipScopeDeleteSet) ID(id interface{}) *ManyToManyRelationshipScopeDeleteSet {
+	// assert id in the where exp
+	s.args[s.whereSize - 1] = id
+	s.id = id
+	return s
+}
+
 func (s *ManyToManyRelationshipScopeDeleteSet) Limit(sizeP interface{}) *ManyToManyRelationshipScopeDeleteSet {
 	s.args[s.whereSize + LimitPosition] = sizeP
 	s.limit = sizeP

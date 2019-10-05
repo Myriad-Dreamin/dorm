@@ -109,7 +109,7 @@ func TestRelationshipScopeFind_Find(t *testing.T) {
 	fmt.Println(g.stmt, g.args)
 	g = r.Anchor(&Group{ID:8}).Offset(7).Limit(5).BuildFind()
 	fmt.Println(g.stmt, g.args)
-	g = r.Anchor(&Group{ID:8}).BuildFind().Offset(7).Limit(5)
+	g = r.Anchor(&Group{ID:8}).BuildFind().ID(7).Offset(7).Limit(5)
 	fmt.Println(g.stmt, g.args)
 	g = r.Anchor(&Group{ID:8}).BuildFind().Rebind(LimitPosition, 5).Rebind(OffsetPosition, 7)
 	fmt.Println(g.stmt, g.args)

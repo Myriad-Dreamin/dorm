@@ -18,6 +18,13 @@ func (s *ManyToManyRelationshipScope) BuildFind() (t *ManyToManyRelationshipScop
 	return
 }
 
+func (s *ManyToManyRelationshipScopeFind) ID(id interface{}) *ManyToManyRelationshipScopeFind {
+	// assert id in the where exp
+	s.args[s.whereSize - 1] = id
+	s.id = id
+	return s
+}
+
 func (s *ManyToManyRelationshipScopeFind) Limit(sizeP interface{}) *ManyToManyRelationshipScopeFind {
 	s.args[s.whereSize + LimitPosition] = sizeP
 	s.limit = sizeP

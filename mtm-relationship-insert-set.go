@@ -17,6 +17,11 @@ func (s *ManyToManyRelationshipScope) BuildInsertSet() (t *ManyToManyRelationshi
 	return
 }
 
+func (s *ManyToManyRelationshipScopeInsertSet) ID(id interface{}) *ManyToManyRelationshipScopeInsertSet {
+	s.id = id
+	return s
+}
+
 func (s *ManyToManyRelationshipScopeInsertSet) InsertSet(v uint) (aff int64, err error) {
 	if s.Error != nil {
 		err = s.Error

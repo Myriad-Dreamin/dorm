@@ -21,6 +21,11 @@ func (s *ManyToManyRelationshipScope) BuildInsertsSet() (t *ManyToManyRelationsh
 	return
 }
 
+func (s *ManyToManyRelationshipScopeInsertsSet) ID(id interface{}) *ManyToManyRelationshipScopeInsertsSet {
+	s.id = id
+	return s
+}
+
 const dotTwoPlaceHolder = "," + twoPlaceHolder
 
 func (s *ManyToManyRelationshipScopeInsertsSet) InsertsSet(vs ...uint) (aff int64, err error) {
