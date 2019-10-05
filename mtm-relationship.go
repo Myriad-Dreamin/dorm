@@ -2,6 +2,7 @@ package dorm
 
 import (
 	"fmt"
+	"math"
 	"reflect"
 )
 
@@ -43,7 +44,7 @@ func (r *ManyToManyRelationship) Anchor(u ORMObject) (s *ManyToManyRelationshipS
 	}
 	s.model = u
 	s.id = u.GetID()
-	s.limit = -1
+	s.limit = math.MaxUint64
 	s.offset = 0
 	return
 }

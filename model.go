@@ -2,6 +2,7 @@ package dorm
 
 import (
 	"errors"
+	"math"
 )
 
 type Model struct {
@@ -29,7 +30,7 @@ func (m *Model) Anchor(u ORMObject) (s *ModelScope) {
 func (m *Model) Scope() (s *ModelScope) {
 	s = &ModelScope{Model: m,}
 	s.model = m.ori
-	s.limit = -1
+	s.limit = math.MaxUint64
 	s.offset = 0
 	return
 }
