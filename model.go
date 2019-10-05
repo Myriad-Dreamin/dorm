@@ -30,7 +30,7 @@ func (m *Model) Anchor(u ORMObject) (s *ModelScope) {
 func (m *Model) Scope() (s *ModelScope) {
 	s = &ModelScope{Model: m,}
 	s.model = m.ori
-	s.limit = math.MaxUint64
+	s.limit = math.MaxInt64
 	s.offset = 0
 	return
 }

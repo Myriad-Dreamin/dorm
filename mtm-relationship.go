@@ -44,7 +44,7 @@ func (r *ManyToManyRelationship) Anchor(u ORMObject) (s *ManyToManyRelationshipS
 	}
 	s.model = u
 	s.id = u.GetID()
-	s.limit = math.MaxUint64
+	s.limit = math.MaxInt64
 	s.offset = 0
 	return
 }
