@@ -72,5 +72,5 @@ func (s *ModelScopeUpdateFields) UpdateFields(args... interface{}) (aff int64, e
 		}
 	}
 
-	return s.db.ExecStatement(s.stmt, append(append(fvs, args...), s.args...)...)
+	return s.db.ExecStatement(s.decide(s.stmt), append(append(fvs, args...), s.args...)...)
 }
