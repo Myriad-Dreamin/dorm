@@ -35,7 +35,7 @@ func (s *ManyToManyRelationshipScopeDeleteSet) Offset(offsetP interface{}) *Many
 	return s
 }
 
-func (s *ManyToManyRelationshipScopeDeleteSet) Rebind(offset int, offsetP interface{}) *ManyToManyRelationshipScopeDeleteSet {
+func (s *ManyToManyRelationshipScopeDeleteSet) Rebind(offset int64, offsetP interface{}) *ManyToManyRelationshipScopeDeleteSet {
 	s.args[offset] = offsetP
 	return s
 }

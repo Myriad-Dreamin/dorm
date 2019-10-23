@@ -48,7 +48,7 @@ func (s *ModelScopeUpdateFields) Offset(offsetP interface{}) *ModelScopeUpdateFi
 	return s
 }
 
-func (s *ModelScopeUpdateFields) Rebind(offset int, offsetP interface{}) *ModelScopeUpdateFields {
+func (s *ModelScopeUpdateFields) Rebind(offset int64, offsetP interface{}) *ModelScopeUpdateFields {
 	s.args[offset] = offsetP
 	return s
 }

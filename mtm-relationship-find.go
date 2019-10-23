@@ -37,7 +37,7 @@ func (s *ManyToManyRelationshipScopeFind) Offset(offsetP interface{}) *ManyToMan
 	return s
 }
 
-func (s *ManyToManyRelationshipScopeFind) Rebind(offset int, offsetP interface{}) *ManyToManyRelationshipScopeFind {
+func (s *ManyToManyRelationshipScopeFind) Rebind(offset int64, offsetP interface{}) *ManyToManyRelationshipScopeFind {
 	s.args[offset] = offsetP
 	return s
 }

@@ -30,7 +30,7 @@ func (s *ModelScope) fetchArgsFunc(args []int) FetchFetchFunc {
 				}
 
 				for i, arg := range args {
-					retrieves[i] = objValue.Field(arg).Addr().Interface()
+					retrieves[i] = objValue.Field(int(arg)).Addr().Interface()
 				}
 
 				return rows.Scan(retrieves...)
@@ -46,7 +46,7 @@ func (s *ModelScope) fetchArgsFunc(args []int) FetchFetchFunc {
 					value := reflect.New(s.valueType)
 					valueElem := value.Elem()
 					for i, arg := range args {
-						retrieves[i] = valueElem.Field(arg).Addr().Interface()
+						retrieves[i] = valueElem.Field(int(arg)).Addr().Interface()
 					}
 					err = rows.Scan(retrieves...)
 					if err != nil {
@@ -62,7 +62,7 @@ func (s *ModelScope) fetchArgsFunc(args []int) FetchFetchFunc {
 					}
 					value := reflect.New(s.valueType).Elem()
 					for i, arg := range args {
-						retrieves[i] = value.Field(arg).Addr().Interface()
+						retrieves[i] = value.Field(int(arg)).Addr().Interface()
 					}
 					err = rows.Scan(retrieves...)
 					if err != nil {
@@ -87,7 +87,7 @@ func (s *ModelScope) fieldsFetch(fields []string) (FetchFetchFunc, error) {
 		if fieldType, ok := s.typeInfo[field]; !ok {
 			return nil, fmt.Errorf("field %v not find", field)
 		} else {
-			args[i] = fieldType.FieldOffset
+			args[i] = int(fieldType.FieldOffset)
 		}
 	}
 
@@ -98,7 +98,7 @@ func (s *ModelScope) fullFetch() (FetchFetchFunc, error) {
 
 	var args = make([]int, len(s.typeInfoSlice))
 	for i, fieldType := range s.typeInfoSlice {
-		args[i] = fieldType.FieldOffset
+		args[i] = int(fieldType.FieldOffset)
 	}
 
 	return s.fetchArgsFunc(args), nil

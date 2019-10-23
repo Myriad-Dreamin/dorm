@@ -47,7 +47,7 @@ func (s *ModelScopeDelete) Offset(offsetP interface{}) *ModelScopeDelete {
 	return s
 }
 
-func (s *ModelScopeDelete) Rebind(offset int, offsetP interface{}) *ModelScopeDelete {
+func (s *ModelScopeDelete) Rebind(offset int64, offsetP interface{}) *ModelScopeDelete {
 	s.args[offset] = offsetP
 	return s
 }

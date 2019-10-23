@@ -34,7 +34,7 @@ func (s *ManyToManyRelationshipScopeCount) Offset(offsetP interface{}) *ManyToMa
 	return s
 }
 
-func (s *ManyToManyRelationshipScopeCount) Rebind(offset int, offsetP interface{}) *ManyToManyRelationshipScopeCount {
+func (s *ManyToManyRelationshipScopeCount) Rebind(offset int64, offsetP interface{}) *ManyToManyRelationshipScopeCount {
 	s.args[offset] = offsetP
 	return s
 }

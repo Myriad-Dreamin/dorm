@@ -4,7 +4,7 @@ import "testing"
 
 func Test_nPlaceHolder(t *testing.T) {
 	type args struct {
-		n int
+		n int64
 	}
 
 	var even = "("

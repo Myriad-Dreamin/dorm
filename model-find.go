@@ -67,7 +67,7 @@ func (s *ModelScopeFind) Offset(offsetP interface{}) *ModelScopeFind {
 	return s
 }
 
-func (s *ModelScopeFind) Rebind(offset int, offsetP interface{}) *ModelScopeFind {
+func (s *ModelScopeFind) Rebind(offset int64, offsetP interface{}) *ModelScopeFind {
 	s.args[offset] = offsetP
 	return s
 }

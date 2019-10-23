@@ -54,7 +54,7 @@ func init() {
 	)
 	placeholders = append(placeholders, make([]string, 512 - 17)...)
 }
-func generateNPlaceHolder(n int) string {
+func generateNPlaceHolder(n int64) string {
 	var resBuf = bytes.NewBuffer(make([]byte, 0, (n<<1)+1))
 	resBuf.WriteByte('(')
 
@@ -83,7 +83,7 @@ func generateNPlaceHolder(n int) string {
 	resBuf.WriteByte(')')
 	return resBuf.String()
 }
-func nPlaceHolder(n int) string {
+func nPlaceHolder(n int64) string {
 	switch {
 	case 0 <= n && n <= 16:
 		return placeholders[n]
