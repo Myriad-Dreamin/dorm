@@ -22,7 +22,7 @@ type ModelScope struct {
 func (m *Model) Anchor(u ORMObject) (s *ModelScope) {
 	s = &ModelScope{Model: m,}
 	s.model = u
-	s.limit = math.MaxInt64
+	s.limit = int64(math.MaxInt64)
 	s.offset = 0
 	return
 }
@@ -30,7 +30,7 @@ func (m *Model) Anchor(u ORMObject) (s *ModelScope) {
 func (m *Model) Scope() (s *ModelScope) {
 	s = &ModelScope{Model: m,}
 	s.model = m.ori
-	s.limit = math.MaxInt64
+	s.limit = int64(math.MaxInt64)
 	s.offset = 0
 	return
 }
