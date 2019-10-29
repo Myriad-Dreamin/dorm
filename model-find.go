@@ -10,7 +10,6 @@ import (
 type ModelScopeFind struct {
 	*ModelScope
 	stmt      string
-	args      []interface{}
 	fetchFetchFunc FetchFetchFunc
 }
 
@@ -27,13 +26,13 @@ func (s *ModelScope) BuildFind(options ...interface{}) (t *ModelScopeFind) {
 	//t.stmt = "select " + s.VPK + " from " + s.TableName + s.limitation(s.UPK, &t.args)
 	if s.partialSet {
 		t.stmt = "select " + strings.Join(s.fields, ",") + " from `" + s.tableName + "` " +
-			s.limitation("id", &t.args)
+			s.limitation("id")
 		if t.fetchFetchFunc == nil {
 			t.fetchFetchFunc, t.Error = s.fieldsFetch(s.fields)
 		}
 	} else {
 		t.stmt = "select " + s.fullFields() + " from `" + s.tableName + "` " +
-			s.limitation("id", &t.args)
+			s.limitation("id")
 		if t.fetchFetchFunc == nil {
 			t.fetchFetchFunc, t.Error = s.fullFetch()
 		}
@@ -48,7 +47,7 @@ func (s *ModelScopeFind) Model(obj ORMObject) *ModelScopeFind {
 		return s
 	}
 	s.model = obj
-	s.args[0] = obj.GetID()
+	s.id = obj.GetID()
 	return s
 }
 
@@ -58,12 +57,12 @@ func (s *ModelScopeFind) ID(id interface{}) *ModelScopeFind {
 }
 
 func (s *ModelScopeFind) Limit(sizeP interface{}) *ModelScopeFind {
-	s.args[LimitPosition] = sizeP
+	s.limit = sizeP
 	return s
 }
 
 func (s *ModelScopeFind) Offset(offsetP interface{}) *ModelScopeFind {
-	s.args[OffsetPosition] = offsetP
+	s.offset = offsetP
 	return s
 }
 
@@ -88,5 +87,5 @@ func (s *ModelScopeFind) Find(elem interface{}, args... interface{}) (err error)
 		return
 	}
 
-	return s.db.QueryStatement(s.decide(s.stmt), s.fetchFetchFunc(elem), append(args, s.args...)...)
+	return s.db.QueryStatement(s.decide(s.stmt), s.fetchFetchFunc(elem), s.decideArgs(s.args)...)
 }
