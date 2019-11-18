@@ -18,7 +18,7 @@ func (s *ModelScope) BuildDelete() (t *ModelScopeDelete) {
 		return
 	}
 
-	t.stmt = "delete from " + s.tableName + s.limitation("id", &t.args)
+	t.stmt = "delete from " + s.db.escaper + s.tableName + s.db.escaper + s.limitation("id", &t.args)
 	return
 }
 

@@ -12,7 +12,7 @@ func (s *ManyToManyRelationshipScope) BuildDeleteSet() (t *ManyToManyRelationshi
 		return
 	}
 
-	t.stmt = "delete from `" + t.TableName + "`" + t.limitation(t.UPK, &t.args)
+	t.stmt = "delete from " + s.db.escaper + t.TableName + s.db.escaper + t.limitation(t.UPK, &t.args)
 	return
 }
 

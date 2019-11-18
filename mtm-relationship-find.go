@@ -14,7 +14,7 @@ func (s *ManyToManyRelationshipScope) BuildFind() (t *ManyToManyRelationshipScop
 		return
 	}
 
-	t.stmt = "select " + s.VPK + " from `" + s.TableName + "`" + s.limitation(s.UPK, &t.args)
+	t.stmt = "select " + s.VPK + " from " + s.db.escaper + s.TableName + s.db.escaper + s.limitation(s.UPK, &t.args)
 	return
 }
 

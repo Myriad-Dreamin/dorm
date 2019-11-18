@@ -26,13 +26,13 @@ func (s *ModelScope) BuildFind(options ...interface{}) (t *ModelScopeFind) {
 
 	//t.stmt = "select " + s.VPK + " from " + s.TableName + s.limitation(s.UPK, &t.args)
 	if s.partialSet {
-		t.stmt = "select " + strings.Join(s.fields, ",") + " from `" + s.tableName + "` " +
+		t.stmt = "select " + strings.Join(s.fields, ",") + " from " + s.db.escaper + s.tableName + s.db.escaper + " " +
 			s.limitation("id", &t.args)
 		if t.fetchFetchFunc == nil {
 			t.fetchFetchFunc, t.Error = s.fieldsFetch(s.fields)
 		}
 	} else {
-		t.stmt = "select " + s.fullFields() + " from `" + s.tableName + "` " +
+		t.stmt = "select " + s.fullFields() + " from " + s.db.escaper + s.tableName + s.db.escaper + " " +
 			s.limitation("id", &t.args)
 		if t.fetchFetchFunc == nil {
 			t.fetchFetchFunc, t.Error = s.fullFetch()

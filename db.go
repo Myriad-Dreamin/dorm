@@ -9,52 +9,52 @@ import (
 
 type DB struct {
 	*sql.DB
+	escaper string
 	logger Logger
 }
 
+type Escaper string
+type DBType string
+
+func (db *DB) parseOption(options []interface{}) *DB {
+	db.escaper = "`"
+	db.logger = nl
+	for _, option := range options {
+		switch o := option.(type) {
+		case Logger:
+			db.logger = o
+		case Escaper:
+			db.escaper = string(o)
+		}
+	}
+	return db
+}
+
+func getDBType(options []interface{}) string {
+	for _, option := range options {
+		switch o := option.(type) {
+		case DBType:
+			return string(o)
+		}
+	}
+	return "mysql"
+}
+
+
 func Open(dsn string, options ...interface{}) (*DB, error) {
-	rawDB, err := sql.Open("mysql", dsn)
+	rawDB, err := sql.Open(getDBType(options), dsn)
 	if err != nil {
 		return nil, err
 	}
-
-	db := &DB{DB: rawDB, logger: nl}
-
-	for _, option := range options {
-		if t, ok := option.(Logger); ok {
-			db.logger = t
-		}
-
-		//switch o := option.(type) {
-		//case Logger:
-		//
-		//}
-	}
-
-	return db, nil
+	return (&DB{DB: rawDB, logger: nl}).parseOption(options), nil
 }
 
 func IdleOpen(options ...interface{}) (*DB, error) {
-
-	db := &DB{logger: nl}
-
-	for _, option := range options {
-		if t, ok := option.(Logger); ok {
-			db.logger = t
-		}
-	}
-
-	return db, nil
+	return (&DB{logger: nl}).parseOption(options), nil
 }
 
 func FromRaw(rdb *sql.DB, options ...interface{}) (*DB, error) {
-	db := &DB{DB: rdb}
-	for _, option := range options {
-		if t, ok := option.(Logger); ok {
-			db.logger = t
-		}
-	}
-	return db, nil
+	return (&DB{DB: rdb}).parseOption(options), nil
 }
 
 
@@ -173,3 +173,8 @@ func (db *DB) ManyToManyRelation(u ORMObject, v ORMObject, options ...interface{
 
 	return
 }
+
+func (db *DB) SetEscaper(str string) {
+	db.escaper = str
+}
+

@@ -12,7 +12,7 @@ func (s *ManyToManyRelationshipScope) BuildInsertSet() (t *ManyToManyRelationshi
 		return
 	}
 
-	t.stmt = "insert into `" + s.TableName + "`(" + s.uCommon.fieldsColumns([]string{s.UPK, s.VPK}) +
+	t.stmt = "insert into " + s.db.escaper + s.TableName + s.db.escaper + "(" + s.uCommon.fieldsColumns([]string{s.UPK, s.VPK}) +
 		") values " + twoPlaceHolder
 	return
 }
