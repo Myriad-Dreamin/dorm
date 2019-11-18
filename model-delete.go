@@ -8,9 +8,7 @@ import (
 type ModelScopeDelete struct {
 	*ModelScope
 	stmt string
-	args []interface{}
 }
-
 
 func (s *ModelScope) BuildDelete() (t *ModelScopeDelete) {
 	t = &ModelScopeDelete{ModelScope: s}
@@ -18,7 +16,7 @@ func (s *ModelScope) BuildDelete() (t *ModelScopeDelete) {
 		return
 	}
 
-	t.stmt = "delete from " + s.db.escaper + s.tableName + s.db.escaper + s.limitation("id", &t.args)
+	t.stmt = "delete from " + s.db.escaper + s.tableName + s.db.escaper + s.limitation("id")
 	return
 }
 
@@ -28,7 +26,7 @@ func (s *ModelScopeDelete) Model(obj ORMObject) *ModelScopeDelete {
 		return s
 	}
 	s.model = obj
-	s.args[0] = obj.GetID()
+	s.id = obj.GetID()
 	return s
 }
 
@@ -38,26 +36,25 @@ func (s *ModelScopeDelete) ID(id interface{}) *ModelScopeDelete {
 }
 
 func (s *ModelScopeDelete) Limit(sizeP interface{}) *ModelScopeDelete {
-	s.args[LimitPosition] = sizeP
+	s.limit = sizeP
 	return s
 }
 
 func (s *ModelScopeDelete) Offset(offsetP interface{}) *ModelScopeDelete {
-	s.args[OffsetPosition] = offsetP
+	s.offset = offsetP
 	return s
 }
 
-func (s *ModelScopeDelete) Rebind(offset int, offsetP interface{}) *ModelScopeDelete {
+func (s *ModelScopeDelete) Rebind(offset int64, offsetP interface{}) *ModelScopeDelete {
 	s.args[offset] = offsetP
 	return s
 }
 
-func (s *ModelScopeDelete) Delete(args...interface{}) (aff int64, err error) {
+func (s *ModelScopeDelete) Delete(args ...interface{}) (aff int64, err error) {
 	if s.Error != nil {
 		err = s.Error
 		return
 	}
 
-	return s.db.ExecStatement(s.stmt, append(args, s.args...)...)
+	return s.db.ExecStatement(s.decide(s.stmt), append(args, s.decideArgs(s.args)...)...)
 }
-

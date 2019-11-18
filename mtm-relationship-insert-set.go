@@ -3,7 +3,6 @@ package dorm
 type ManyToManyRelationshipScopeInsertSet struct {
 	*ManyToManyRelationshipScope
 	stmt string
-	args []interface{}
 }
 
 func (s *ManyToManyRelationshipScope) BuildInsertSet() (t *ManyToManyRelationshipScopeInsertSet) {
@@ -18,7 +17,7 @@ func (s *ManyToManyRelationshipScope) BuildInsertSet() (t *ManyToManyRelationshi
 }
 
 func (s *ManyToManyRelationshipScopeInsertSet) ID(id interface{}) *ManyToManyRelationshipScopeInsertSet {
-	s.id = id
+	s.args[0] = id
 	return s
 }
 

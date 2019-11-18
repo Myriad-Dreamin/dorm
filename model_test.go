@@ -1,153 +1,41 @@
 package dorm
 
 import (
-	//"fmt"
+	"fmt"
+	"github.com/jinzhu/gorm"
+	_ "github.com/mattn/go-sqlite3"
 	"testing"
-	"time"
-
-	_ "net/http/pprof"
 )
 
-
-
-func BenchmarkModelScope_BuildFind(b *testing.B) {
-
-	logger := NewFmtLogger()
-	db, err := Open(dsn, logger)
+func TestModelScope_UpdateFields(t *testing.T) {
+	gdb, err := gorm.Open("sqlite3", ":memory:")
 	if err != nil {
-		b.Error(err)
-		return
+		t.Fatal(err)
 	}
-
-	m, err := db.Model(&User{ID:1})
+	defer gdb.Close()
+	if err := gdb.AutoMigrate(&User{}).Error; err != nil {
+		t.Fatal(err)
+	}
+	fdb, err := FromRaw(gdb.DB(), NewFmtLogger())
 	if err != nil {
-		b.Error(err)
-		return
+		t.Fatal(err)
 	}
 
-	b.ResetTimer()
-
-	for i := 0; i < b.N; i ++ {
-		_ = m.Scope().BuildFind()
+	model, err := fdb.Model(&User{ID:1})
+	if err != nil {
+		t.Fatal(err)
 	}
+	aff, err := model.Anchor(&User{ID:1}).Select([]string{"gender"}...).UpdateFields()
+	if err != nil {
+		t.Fatal(err)
+	}
+	fmt.Println(aff)
+	aff, err = model.Anchor(&User{ID:1, Gender:1}).Select([]string{"gender"}...).UpdateFields()
+	if err != nil {
+		t.Fatal(err)
+	}
+	fmt.Println(aff)
 }
 
-func BenchmarkModelScope_Find(b *testing.B) {
-
-	logger := NewNopLogger()
-	db, err := Open(dsn, logger)
-	if err != nil {
-		b.Error(err)
-		return
-	}
-
-	m, err := db.Model(&User{ID:1})
-	if err != nil {
-		b.Error(err)
-		return
-	}
-	t := m.Scope().BuildFind()
-	b.ResetTimer()
-
-	for i := 0; i < b.N; i ++ {
-		_ = t.Find(&User{})
-	}
-}
-
-func TestModelScope_Find(t *testing.T) {
-
-	logger := NewFmtLogger()
-	db, err := Open(dsn, logger)
-	if err != nil {
-		t.Error(err)
-		return
-	}
-
-	m, err := db.Model(&User{ID:1})
-	if err != nil {
-		t.Error(err)
-		return
-	}
-
-	g := User{ID:1}
-	err = m.Scope().Find(&g)
-	if err != nil {
-		t.Error(err)
-		return
-	}
-	//fmt.Println(g)
 
 
-	g = User{ID:264}
-	_, err = m.Anchor(&g).Delete()
-	if err != nil {
-		t.Error(err)
-		return
-	}
-	//fmt.Println(a)
-
-	g = User{ID:263}
-	_, err = m.Scope().ID(g.ID).Delete()
-	if err != nil {
-		t.Error(err)
-		return
-	}
-	//fmt.Println(a)
-
-
-
-
-	var gg []User
-	m2, err := db.Model(&User{})
-	if err != nil {
-		t.Error(err)
-		return
-	}
-
-
-	g = User{ID:263}
-	_, err = m2.Scope().Where("id between ? and ?").Delete(263, 266)
-	if err != nil {
-		t.Error(err)
-		return
-	}
-	//fmt.Println(a)
-
-
-	err = m2.Scope().Find(&gg)
-	if err != nil {
-		t.Error(err)
-		return
-	}
-	//fmt.Println(len(gg))
-	xxx := time.Now()
-	ggg := &User{ID:291, CreatedAt:&xxx}
-	//a, err = m2.Anchor(ggg).Insert()
-	//if err != nil {
-	//	t.Error(err)
-	//	return
-	//}
-	////fmt.Println("???" , a, ggg)
-
-	_, err = m2.Anchor(ggg).Select("created_at").UpdateFields()
-	if err != nil {
-		t.Error(err)
-		return
-	}
-	//fmt.Println(a)
-
-	err = m2.Scope().ID(291).Select("id", "created_at").Find(ggg)
-	if err != nil {
-		t.Error(err)
-		return
-	}
-	//fmt.Println(ggg)
-
-	gg = nil
-	err = m2.Scope().Find(&gg)
-	if err != nil {
-		t.Error(err)
-		return
-	}
-	//fmt.Println(len(gg))
-}

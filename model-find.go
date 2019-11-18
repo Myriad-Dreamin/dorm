@@ -6,11 +6,9 @@ import (
 	"strings"
 )
 
-
 type ModelScopeFind struct {
 	*ModelScope
-	stmt      string
-	args      []interface{}
+	stmt           string
 	fetchFetchFunc FetchFetchFunc
 }
 
@@ -27,13 +25,13 @@ func (s *ModelScope) BuildFind(options ...interface{}) (t *ModelScopeFind) {
 	//t.stmt = "select " + s.VPK + " from " + s.TableName + s.limitation(s.UPK, &t.args)
 	if s.partialSet {
 		t.stmt = "select " + strings.Join(s.fields, ",") + " from " + s.db.escaper + s.tableName + s.db.escaper + " " +
-			s.limitation("id", &t.args)
+			s.limitation("id")
 		if t.fetchFetchFunc == nil {
 			t.fetchFetchFunc, t.Error = s.fieldsFetch(s.fields)
 		}
 	} else {
 		t.stmt = "select " + s.fullFields() + " from " + s.db.escaper + s.tableName + s.db.escaper + " " +
-			s.limitation("id", &t.args)
+			s.limitation("id")
 		if t.fetchFetchFunc == nil {
 			t.fetchFetchFunc, t.Error = s.fullFetch()
 		}
@@ -48,7 +46,7 @@ func (s *ModelScopeFind) Model(obj ORMObject) *ModelScopeFind {
 		return s
 	}
 	s.model = obj
-	s.args[0] = obj.GetID()
+	s.id = obj.GetID()
 	return s
 }
 
@@ -58,16 +56,16 @@ func (s *ModelScopeFind) ID(id interface{}) *ModelScopeFind {
 }
 
 func (s *ModelScopeFind) Limit(sizeP interface{}) *ModelScopeFind {
-	s.args[LimitPosition] = sizeP
+	s.limit = sizeP
 	return s
 }
 
 func (s *ModelScopeFind) Offset(offsetP interface{}) *ModelScopeFind {
-	s.args[OffsetPosition] = offsetP
+	s.offset = offsetP
 	return s
 }
 
-func (s *ModelScopeFind) Rebind(offset int, offsetP interface{}) *ModelScopeFind {
+func (s *ModelScopeFind) Rebind(offset int64, offsetP interface{}) *ModelScopeFind {
 	s.args[offset] = offsetP
 	return s
 }
@@ -82,11 +80,11 @@ func (s *ModelScopeFind) Order(order string) *ModelScopeFind {
 	return s
 }
 
-func (s *ModelScopeFind) Find(elem interface{}, args... interface{}) (err error) {
+func (s *ModelScopeFind) Find(elem interface{}, args ...interface{}) (err error) {
 	if s.Error != nil {
 		err = s.Error
 		return
 	}
 
-	return s.db.QueryStatement(s.decide(s.stmt), s.fetchFetchFunc(elem), append(args, s.args...)...)
+	return s.db.QueryStatement(s.decide(s.stmt), s.fetchFetchFunc(elem), s.decideArgs(s.args)...)
 }

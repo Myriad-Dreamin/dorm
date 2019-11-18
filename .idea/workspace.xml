@@ -2,6 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="cc521ae4-8b23-4343-8ac3-cccf49c6ef4b" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/model_test.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/deployment.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/deployment.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/db.go" beforeDir="false" afterPath="$PROJECT_DIR$/db.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/logger.go" beforeDir="false" afterPath="$PROJECT_DIR$/logger.go" afterDir="false" />
@@ -28,7 +31,7 @@
       </list>
     </option>
   </component>
-  <component name="GOROOT" path="D:\Go" />
+  <component name="GOROOT" path="$PROJECT_DIR$/../../../../../go" />
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
@@ -44,6 +47,7 @@
     <property name="go.sdk.automatically.set" value="true" />
     <property name="go.tried.to.enable.integration.vgo.integrator" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="settings.editor.selected.configurable" value="go.vgo" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -62,7 +66,18 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Go Test.TestRelationshipScopeFind_Find in github.com/Myriad-Dreamin/dorm (1)">
+  <component name="RunManager" selected="Go Test.TestModelScope_UpdateFields in github.com/Myriad-Dreamin/dorm">
+    <configuration name="TestModelScope_UpdateFields in github.com/Myriad-Dreamin/dorm" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="dorm" />
+      <working_directory value="$PROJECT_DIR$" />
+      <framework value="gotest" />
+      <kind value="PACKAGE" />
+      <package value="github.com/Myriad-Dreamin/dorm" />
+      <directory value="$PROJECT_DIR$/" />
+      <filePath value="$PROJECT_DIR$/" />
+      <pattern value="^TestModelScope_UpdateFields$" />
+      <method v="2" />
+    </configuration>
     <configuration name="TestRelationshipScopeFind_Find in github.com/Myriad-Dreamin/dorm (1)" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="dorm" />
       <working_directory value="$PROJECT_DIR$" />
@@ -107,24 +122,13 @@
       <pattern value="^TestRelationshipScopeSet$" />
       <method v="2" />
     </configuration>
-    <configuration name="Test_nPlaceHolder in github.com/Myriad-Dreamin/dorm" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
-      <module name="dorm" />
-      <working_directory value="$PROJECT_DIR$" />
-      <framework value="gotest" />
-      <kind value="PACKAGE" />
-      <package value="github.com/Myriad-Dreamin/dorm" />
-      <directory value="$PROJECT_DIR$/" />
-      <filePath value="$PROJECT_DIR$/" />
-      <pattern value="^Test_nPlaceHolder$" />
-      <method v="2" />
-    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Go Test.TestModelScope_UpdateFields in github.com/Myriad-Dreamin/dorm" />
         <item itemvalue="Go Test.TestRelationshipScopeFind_Find in github.com/Myriad-Dreamin/dorm (1)" />
         <item itemvalue="Go Test.TestRelationshipScopeInsertsSet in github.com/Myriad-Dreamin/dorm" />
         <item itemvalue="Go Test.TestRelationshipScopeInsertSet in github.com/Myriad-Dreamin/dorm" />
         <item itemvalue="Go Test.TestRelationshipScopeSet in github.com/Myriad-Dreamin/dorm" />
-        <item itemvalue="Go Test.Test_nPlaceHolder in github.com/Myriad-Dreamin/dorm" />
       </list>
     </recent_temporary>
   </component>
@@ -146,6 +150,6 @@
   </component>
   <component name="VgoProject">
     <integration-enabled>true</integration-enabled>
-    <proxy>direct</proxy>
+    <proxy>https://goproxy.io</proxy>
   </component>
 </project>

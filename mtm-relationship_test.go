@@ -96,38 +96,32 @@ func TestRelationshipScopeFind_Find(t *testing.T) {
 	}
 
 	g := r.Anchor(&Group{ID:8}).BuildFind()
-	fmt.Println(g.stmt, g.args)
+	fmt.Println(g.decide(g.stmt), g.decideArgs(g.args))
 	g = r.Anchor(&Group{}).BuildFind()
-	fmt.Println(g.stmt, g.args)
+	fmt.Println(g.decide(g.stmt), g.decideArgs(g.args))
 	g = r.Anchor(&Group{}).ID(8).BuildFind()
-	fmt.Println(g.stmt, g.args)
+	fmt.Println(g.decide(g.stmt), g.decideArgs(g.args))
 	g = r.Anchor(&Group{ID:8}).Limit(5).BuildFind()
-	fmt.Println(g.stmt, g.args)
+	fmt.Println(g.decide(g.stmt), g.decideArgs(g.args))
 	g = r.Anchor(&Group{ID:8}).BuildFind().Limit(5)
-	fmt.Println(g.stmt, g.args)
-	g = r.Anchor(&Group{ID:8}).BuildFind().Rebind(LimitPosition, 5)
-	fmt.Println(g.stmt, g.args)
+	fmt.Println(g.decide(g.stmt), g.decideArgs(g.args))
 	g = r.Anchor(&Group{ID:8}).Offset(7).Limit(5).BuildFind()
-	fmt.Println(g.stmt, g.args)
+	fmt.Println(g.decide(g.stmt), g.decideArgs(g.args))
 	g = r.Anchor(&Group{ID:8}).BuildFind().ID(7).Offset(7).Limit(5)
-	fmt.Println(g.stmt, g.args)
-	g = r.Anchor(&Group{ID:8}).BuildFind().Rebind(LimitPosition, 5).Rebind(OffsetPosition, 7)
-	fmt.Println(g.stmt, g.args)
+	fmt.Println(g.decide(g.stmt), g.decideArgs(g.args))
 	g = r.Anchor(&Group{ID:8}).Limit(5).Offset(1).BuildFind()
-	fmt.Println(g.stmt, g.args)
+	fmt.Println(g.decide(g.stmt), g.decideArgs(g.args))
 	g = r.Anchor(&Group{ID:8}).BuildFind().Limit(5).Offset(1)
-	fmt.Println(g.stmt, g.args)
-	g = r.Anchor(&Group{ID:8}).BuildFind().Rebind(LimitPosition, 5).Rebind(OffsetPosition, 1)
-	fmt.Println(g.stmt, g.args)
+	fmt.Println(g.decide(g.stmt), g.decideArgs(g.args))
 
 	g = r.RotateAndAnchor(&User{}).BuildFind()
-	fmt.Println(g.stmt, g.args)
+	fmt.Println(g.decide(g.stmt), g.decideArgs(g.args))
 	g = r.RotateAndAnchor(&User{ID:7}).BuildFind()
-	fmt.Println(g.stmt, g.args)
+	fmt.Println(g.decide(g.stmt), g.decideArgs(g.args))
 	g = r.RotateAndAnchor(&User{ID:7}).Order("user_id desc").BuildFind()
-	fmt.Println(g.decide(g.stmt), g.args)
+	fmt.Println(g.decide(g.stmt), g.decideArgs(g.args))
 	g = r.RotateAndAnchor(&User{ID:7}).BuildFind().Order("user_id desc")
-	fmt.Println(g.decide(g.stmt), g.args)
+	fmt.Println(g.decide(g.stmt), g.decideArgs(g.args))
 }
 
 
@@ -147,7 +141,7 @@ func TestRelationshipScopeSet(t *testing.T) {
 		logger.Error("error open", "error", err)
 	}
 	g := r.RotateAndAnchor(&User{ID:7}).BuildDeleteSet()
-	fmt.Println(g.decide(g.stmt), g.args)
+	fmt.Println(g.decide(g.stmt), g.decideArgs(g.args))
 }
 
 
@@ -168,7 +162,7 @@ func TestRelationshipScopeInsertSet(t *testing.T) {
 		logger.Error("error open", "error", err)
 	}
 	g := r.RotateAndAnchor(&User{ID:7}).BuildInsertSet()
-	fmt.Println(g.stmt, g.args)
+	fmt.Println(g.stmt, g.decideArgs(g.args))
 }
 
 func TestRelationshipScopeInsertsSet(t *testing.T) {
@@ -188,7 +182,7 @@ func TestRelationshipScopeInsertsSet(t *testing.T) {
 	}
 	g := r.RotateAndAnchor(&User{ID:7}).ID(6).BuildInsertsSet()
 	//_,_ = g.InsertsSet(1, 2, 3)
-	fmt.Println(g.stmt, g.args)
+	fmt.Println(g.stmt, g.decideArgs(g.args))
 }
 
 

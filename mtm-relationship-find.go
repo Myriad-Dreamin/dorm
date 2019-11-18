@@ -5,7 +5,6 @@ import "database/sql"
 type ManyToManyRelationshipScopeFind struct {
 	*ManyToManyRelationshipScope
 	stmt string
-	args []interface{}
 }
 
 func (s *ManyToManyRelationshipScope) BuildFind() (t *ManyToManyRelationshipScopeFind) {
@@ -14,30 +13,26 @@ func (s *ManyToManyRelationshipScope) BuildFind() (t *ManyToManyRelationshipScop
 		return
 	}
 
-	t.stmt = "select " + s.VPK + " from " + s.db.escaper + s.TableName + s.db.escaper + s.limitation(s.UPK, &t.args)
+	t.stmt = "select " + s.VPK + " from " + s.db.escaper + s.TableName + s.db.escaper + s.limitation(s.UPK)
 	return
 }
 
 func (s *ManyToManyRelationshipScopeFind) ID(id interface{}) *ManyToManyRelationshipScopeFind {
-	// assert id in the where exp
-	s.args[s.whereSize - 1] = id
-	s.id = id
+	s.args[0] = id
 	return s
 }
 
 func (s *ManyToManyRelationshipScopeFind) Limit(sizeP interface{}) *ManyToManyRelationshipScopeFind {
-	s.args[s.whereSize + LimitPosition] = sizeP
 	s.limit = sizeP
 	return s
 }
 
 func (s *ManyToManyRelationshipScopeFind) Offset(offsetP interface{}) *ManyToManyRelationshipScopeFind {
-	s.args[s.whereSize + OffsetPosition] = offsetP
 	s.offset = offsetP
 	return s
 }
 
-func (s *ManyToManyRelationshipScopeFind) Rebind(offset int, offsetP interface{}) *ManyToManyRelationshipScopeFind {
+func (s *ManyToManyRelationshipScopeFind) Rebind(offset int64, offsetP interface{}) *ManyToManyRelationshipScopeFind {
 	s.args[offset] = offsetP
 	return s
 }
@@ -57,9 +52,8 @@ func (s *ManyToManyRelationshipScopeFind) Find(result *[]uint, args ...interface
 		err = s.Error
 		return
 	}
-	s.args[s.whereSize + LimitPosition] = s.limit
-	s.args[s.whereSize + OffsetPosition] = s.offset
-	copy(s.args, args)
+	sargs := s.decideArgs(s.args)
+	copy(sargs, args)
 	err = s.db.QueryStatement(s.decide(s.stmt), func(row *sql.Rows) error {
 		if int(aff) < len(*result) {
 			err := row.Scan(&(*result)[aff])
@@ -76,6 +70,6 @@ func (s *ManyToManyRelationshipScopeFind) Find(result *[]uint, args ...interface
 		}
 		aff++
 		return nil
-	}, s.args...)
+	}, sargs...)
 	return
 }

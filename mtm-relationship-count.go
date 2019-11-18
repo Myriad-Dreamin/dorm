@@ -3,7 +3,6 @@ package dorm
 type ManyToManyRelationshipScopeCount struct {
 	*ManyToManyRelationshipScope
 	stmt string
-	args []interface{}
 }
 
 func (s *ManyToManyRelationshipScope) BuildCount() (t *ManyToManyRelationshipScopeCount) {
@@ -11,30 +10,26 @@ func (s *ManyToManyRelationshipScope) BuildCount() (t *ManyToManyRelationshipSco
 	if s.Error != nil {
 		return
 	}
-	t.stmt = "select count(" + s.VPK + ") from " + s.db.escaper + s.TableName + s.db.escaper + " " + s.limitation(s.UPK, &t.args)
+	t.stmt = "select count(" + s.VPK + ") from " + s.db.escaper + s.TableName + s.db.escaper + " " + s.limitation(s.UPK)
 	return
 }
 
 func (s *ManyToManyRelationshipScopeCount) ID(id interface{}) *ManyToManyRelationshipScopeCount {
-	// assert id in the where exp
-	s.args[s.whereSize - 1] = id
-	s.id = id
+	s.args[0] = id
 	return s
 }
 
 func (s *ManyToManyRelationshipScopeCount) Limit(sizeP interface{}) *ManyToManyRelationshipScopeCount {
-	s.args[s.whereSize + LimitPosition] = sizeP
 	s.limit = sizeP
 	return s
 }
 
 func (s *ManyToManyRelationshipScopeCount) Offset(offsetP interface{}) *ManyToManyRelationshipScopeCount {
-	s.args[OffsetPosition] = offsetP
 	s.offset = offsetP
 	return s
 }
 
-func (s *ManyToManyRelationshipScopeCount) Rebind(offset int, offsetP interface{}) *ManyToManyRelationshipScopeCount {
+func (s *ManyToManyRelationshipScopeCount) Rebind(offset int64, offsetP interface{}) *ManyToManyRelationshipScopeCount {
 	s.args[offset] = offsetP
 	return s
 }
@@ -55,9 +50,8 @@ func (s *ManyToManyRelationshipScopeCount) Count(args ...interface{}) (count int
 		return
 	}
 
-	s.args[s.whereSize + LimitPosition] = s.limit
-	s.args[s.whereSize + OffsetPosition] = s.offset
-	copy(s.args, args)
-	err = s.db.QueryRowStatement(s.decide(s.stmt), []interface{}{count}, s.args...)
+	sargs := s.decideArgs(s.args)
+	copy(sargs, args)
+	err = s.db.QueryRowStatement(s.decide(s.stmt), []interface{}{count}, sargs...)
 	return
 }

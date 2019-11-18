@@ -7,7 +7,6 @@ import (
 type ManyToManyRelationshipScopeInsertsSet struct {
 	*ManyToManyRelationshipScope
 	stmt string
-	args []interface{}
 }
 
 func (s *ManyToManyRelationshipScope) BuildInsertsSet() (t *ManyToManyRelationshipScopeInsertsSet) {
@@ -22,7 +21,7 @@ func (s *ManyToManyRelationshipScope) BuildInsertsSet() (t *ManyToManyRelationsh
 }
 
 func (s *ManyToManyRelationshipScopeInsertsSet) ID(id interface{}) *ManyToManyRelationshipScopeInsertsSet {
-	s.id = id
+	s.args[0] = id
 	return s
 }
 

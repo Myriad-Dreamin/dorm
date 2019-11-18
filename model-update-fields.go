@@ -8,16 +8,15 @@ import (
 type ModelScopeUpdateFields struct {
 	*ModelScope
 	stmt string
-	args []interface{}
 }
 
 func (s *ModelScope) BuildUpdateFields() (t *ModelScopeUpdateFields) {
 	t = &ModelScopeUpdateFields{ModelScope: s}
 
 	if s.partialSet {
-		t.stmt = "update " + s.db.escaper + s.tableName + s.db.escaper + " set " + s.fieldsTemplate(s.fields) + s.updateLimitation("id", &t.args)
+		t.stmt = "update " + s.db.escaper + s.tableName + s.db.escaper + " set " + s.fieldsTemplate(s.fields) + s.updateLimitation("id")
 	} else {
-		t.stmt = "update " + s.db.escaper + s.tableName + s.db.escaper + " set " + s.fullFieldsTemplate() + s.updateLimitation("id", &t.args)
+		t.stmt = "update " + s.db.escaper + s.tableName + s.db.escaper + " set " + s.fullFieldsTemplate() + s.updateLimitation("id")
 	}
 
 	return t
@@ -39,21 +38,21 @@ func (s *ModelScopeUpdateFields) ID(id interface{}) *ModelScopeUpdateFields {
 }
 
 func (s *ModelScopeUpdateFields) Limit(sizeP interface{}) *ModelScopeUpdateFields {
-	s.args[LimitPosition] = sizeP
+	s.limit = sizeP
 	return s
 }
 
 func (s *ModelScopeUpdateFields) Offset(offsetP interface{}) *ModelScopeUpdateFields {
-	s.args[OffsetPosition] = offsetP
+	s.offset = offsetP
 	return s
 }
 
-func (s *ModelScopeUpdateFields) Rebind(offset int, offsetP interface{}) *ModelScopeUpdateFields {
+func (s *ModelScopeUpdateFields) Rebind(offset int64, offsetP interface{}) *ModelScopeUpdateFields {
 	s.args[offset] = offsetP
 	return s
 }
 
-func (s *ModelScopeUpdateFields) UpdateFields(args... interface{}) (aff int64, err error) {
+func (s *ModelScopeUpdateFields) UpdateFields(args ...interface{}) (aff int64, err error) {
 	if s.Error != nil {
 		err = s.Error
 		return
@@ -72,5 +71,5 @@ func (s *ModelScopeUpdateFields) UpdateFields(args... interface{}) (aff int64, e
 		}
 	}
 
-	return s.db.ExecStatement(s.decide(s.stmt), append(append(fvs, args...), s.args...)...)
+	return s.db.ExecStatement(s.decide(s.stmt), append(append(fvs, args...), s.decideArgs(s.args)...)...)
 }
