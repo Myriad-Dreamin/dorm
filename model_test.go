@@ -16,7 +16,7 @@ func TestModelScope_UpdateFields(t *testing.T) {
 	if err := gdb.AutoMigrate(&User{}).Error; err != nil {
 		t.Fatal(err)
 	}
-	fdb, err := FromRaw(gdb.DB(), NewFmtLogger())
+	fdb, err := FromRaw(gdb.DB(), NewFmtLogger(), Escaper(`"`))
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -26,6 +26,16 @@ func TestModelScope_UpdateFields(t *testing.T) {
 		t.Fatal(err)
 	}
 	aff, err := model.Anchor(&User{ID:1}).Select([]string{"gender"}...).UpdateFields()
+	if err != nil {
+		t.Fatal(err)
+	}
+	fmt.Println(aff)
+	aff, err = model.Anchor(&User{ID:1}).Insert()
+	if err != nil {
+		t.Fatal(err)
+	}
+	fmt.Println(aff)
+	aff, err = model.Anchor(&User{ID:1}).Select([]string{"gender"}...).UpdateFields()
 	if err != nil {
 		t.Fatal(err)
 	}

@@ -14,9 +14,9 @@ func (s *ModelScope) BuildUpdateFields() (t *ModelScopeUpdateFields) {
 	t = &ModelScopeUpdateFields{ModelScope: s}
 
 	if s.partialSet {
-		t.stmt = "update " + s.db.escaper + s.tableName + s.db.escaper + " set " + s.fieldsTemplate(s.fields) + s.updateLimitation("id")
+		t.stmt = "update " + s.db.escaper + s.tableName + s.db.escaper + " set " + s.fieldsTemplate(s.fields) + s.limitation("id")
 	} else {
-		t.stmt = "update " + s.db.escaper + s.tableName + s.db.escaper + " set " + s.fullFieldsTemplate() + s.updateLimitation("id")
+		t.stmt = "update " + s.db.escaper + s.tableName + s.db.escaper + " set " + s.fullFieldsTemplate() + s.limitation("id")
 	}
 
 	return t

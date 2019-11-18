@@ -38,6 +38,15 @@ func (s *common) fullFields() string {
 	return strings.Join(fs, ",")
 }
 
+func (s *common) fullFieldColumns() string {
+	var fs = make([]string, len(s.typeInfoSlice))
+	for i, fieldType := range s.typeInfoSlice {
+		fs[i] = fieldType.ColumnName
+	}
+
+	return strings.Join(fs, ",")
+}
+
 func (s *common) fieldsS(fields []string) string {
 	var fs = make([]string, len(s.typeInfoSlice))
 	for i, field := range fields {

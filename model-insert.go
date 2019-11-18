@@ -14,9 +14,9 @@ type ModelScopeInsert struct {
 func (s *ModelScope) BuildInsert() (t *ModelScopeInsert) {
 	t = &ModelScopeInsert{ModelScope: s}
 	if s.partialSet {
-		t.stmt = "insert into " + s.db.escaper + s.tableName + s.db.escaper + " set " + s.fieldsTemplate(s.fields)
+		t.stmt = "insert into " + s.db.escaper + s.tableName + s.db.escaper + "(" + s.fieldsColumns(s.fields) + ") values " + nPlaceHolder(len(s.typeInfoSlice))
 	} else {
-		t.stmt = "insert into " + s.db.escaper + s.tableName + s.db.escaper + " set " + s.fullFieldsTemplate()
+		t.stmt = "insert into " + s.db.escaper + s.tableName + s.db.escaper + "(" + s.fullFieldColumns() + ") values " + nPlaceHolder(len(s.typeInfoSlice))
 	}
 
 	return t
