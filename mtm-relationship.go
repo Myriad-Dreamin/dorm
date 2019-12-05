@@ -1,6 +1,7 @@
 package dorm
 
 import (
+	"database/sql"
 	"fmt"
 	"math"
 	"reflect"
@@ -10,7 +11,26 @@ type ManyToManyRelationship struct {
 	*RCommon
 	uCommon *common
 	vCommon *common
-	db *DB
+	db      *DB
+}
+
+func (r *ManyToManyRelationship) Clone() *ManyToManyRelationship {
+	return &ManyToManyRelationship{
+		RCommon: r.RCommon,
+		uCommon: r.uCommon,
+		vCommon: r.vCommon,
+		db:      r.db,
+	}
+}
+
+func (r *ManyToManyRelationship) FixDB(db *DB) *ManyToManyRelationship {
+	r.db = db
+	return r
+}
+
+func (r *ManyToManyRelationship) FixSqlDB(db *sql.DB) *ManyToManyRelationship {
+	r.db = r.db.Clone().FixSqlDB(db)
+	return r
 }
 
 func (r *ManyToManyRelationship) Partial(u ORMObject) (pr *ManyToManyRelationship, err error) {
@@ -34,8 +54,8 @@ type ManyToManyRelationshipScope struct {
 	modelCommon
 	*ManyToManyRelationship
 	partialSet bool
-	fields []string
-	Error error
+	fields     []string
+	Error      error
 }
 
 func (r *ManyToManyRelationship) Anchor(u ORMObject) (s *ManyToManyRelationshipScope) {
@@ -72,7 +92,7 @@ func (r *ManyToManyRelationship) RotateAndAnchor(u ORMObject) (s *ManyToManyRela
 
 const (
 	OffsetPosition = 0
-	LimitPosition = 1
+	LimitPosition  = 1
 )
 
 func (s *ManyToManyRelationshipScope) ID(id interface{}) *ManyToManyRelationshipScope {
@@ -80,7 +100,7 @@ func (s *ManyToManyRelationshipScope) ID(id interface{}) *ManyToManyRelationship
 	return s
 }
 
-func (s *ManyToManyRelationshipScope) Select (fields ...string) *ManyToManyRelationshipScope {
+func (s *ManyToManyRelationshipScope) Select(fields ...string) *ManyToManyRelationshipScope {
 	if len(fields) == 0 {
 		s.partialSet = false
 	} else {

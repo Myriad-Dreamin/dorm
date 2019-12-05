@@ -12,6 +12,18 @@ type DB struct {
 	logger Logger
 }
 
+func (db *DB) Clone() *DB {
+	return &DB {
+		DB: db.DB,
+		logger: db.logger,
+	}
+}
+
+func (db *DB) FixSqlDB(rdb *sql.DB) *DB {
+	db.DB = rdb
+	return db
+}
+
 func Open(dsn string, options ...interface{}) (*DB, error) {
 	rawDB, err := sql.Open("mysql", dsn)
 	if err != nil {

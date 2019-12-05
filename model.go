@@ -1,6 +1,7 @@
 package dorm
 
 import (
+	"database/sql"
 	"errors"
 	"math"
 )
@@ -25,6 +26,24 @@ func (m *Model) Anchor(u ORMObject) (s *ModelScope) {
 	s.limit = int64(math.MaxInt64)
 	s.offset = 0
 	return
+}
+
+func (m *Model) Clone() *Model {
+	return &Model{
+		common: m.common,
+		ori:    m.ori,
+		db:     m.db,
+	}
+}
+
+func (m *Model) FixDB(db *DB) *Model {
+	m.db = db
+	return m
+}
+
+func (m *Model) FixSqlDB(db *sql.DB) *Model {
+	m.db = m.db.Clone().FixSqlDB(db)
+	return m
 }
 
 func (m *Model) Scope() (s *ModelScope) {
