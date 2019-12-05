@@ -1,7 +1,6 @@
 package dorm
 
 import (
-	"database/sql"
 	"errors"
 	"math"
 )
@@ -41,7 +40,7 @@ func (m *Model) FixDB(db *DB) *Model {
 	return m
 }
 
-func (m *Model) FixSqlDB(db *sql.DB) *Model {
+func (m *Model) FixSqlDB(db SQLCommon) *Model {
 	m.db = m.db.Clone().FixSqlDB(db)
 	return m
 }

@@ -74,7 +74,7 @@ func IdleOpen(options ...interface{}) (*DB, error) {
 	return (&DB{logger: nl}).parseOption(options), nil
 }
 
-func FromRaw(rdb *sql.DB, options ...interface{}) (*DB, error) {
+func FromRaw(rdb SQLCommon, options ...interface{}) (*DB, error) {
 	return (&DB{SQLCommon: rdb}).parseOption(options), nil
 }
 
@@ -86,7 +86,6 @@ func (db *DB) Close() error {
 func (db *DB) ExecStatement(statement string, args ...interface{}) (int64, error) {
 	//fmt.Println(statement, args)
 	db.logger.Debug("exec ", "statement", statement, "args", args)
-
 	stmt, err := db.Prepare(statement)
 	if err != nil {
 		return 0, err

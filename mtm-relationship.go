@@ -1,7 +1,6 @@
 package dorm
 
 import (
-	"database/sql"
 	"fmt"
 	"math"
 	"reflect"
@@ -28,7 +27,7 @@ func (r *ManyToManyRelationship) FixDB(db *DB) *ManyToManyRelationship {
 	return r
 }
 
-func (r *ManyToManyRelationship) FixSqlDB(db *sql.DB) *ManyToManyRelationship {
+func (r *ManyToManyRelationship) FixSqlDB(db SQLCommon) *ManyToManyRelationship {
 	r.db = r.db.Clone().FixSqlDB(db)
 	return r
 }
