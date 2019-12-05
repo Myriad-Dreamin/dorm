@@ -6,10 +6,9 @@ import (
 	"strings"
 )
 
-
 type ModelScopeFind struct {
 	*ModelScope
-	stmt      string
+	stmt           string
 	fetchFetchFunc FetchFetchFunc
 }
 
@@ -25,13 +24,13 @@ func (s *ModelScope) BuildFind(options ...interface{}) (t *ModelScopeFind) {
 
 	//t.stmt = "select " + s.VPK + " from " + s.TableName + s.limitation(s.UPK, &t.args)
 	if s.partialSet {
-		t.stmt = "select " + strings.Join(s.fields, ",") + " from `" + s.tableName + "` " +
+		t.stmt = "select " + strings.Join(s.fields, ",") + " from " + s.db.escaper + s.tableName + s.db.escaper + " " +
 			s.limitation("id")
 		if t.fetchFetchFunc == nil {
 			t.fetchFetchFunc, t.Error = s.fieldsFetch(s.fields)
 		}
 	} else {
-		t.stmt = "select " + s.fullFields() + " from `" + s.tableName + "` " +
+		t.stmt = "select " + s.fullFields() + " from " + s.db.escaper + s.tableName + s.db.escaper + " " +
 			s.limitation("id")
 		if t.fetchFetchFunc == nil {
 			t.fetchFetchFunc, t.Error = s.fullFetch()
@@ -81,7 +80,7 @@ func (s *ModelScopeFind) Order(order string) *ModelScopeFind {
 	return s
 }
 
-func (s *ModelScopeFind) Find(elem interface{}, args... interface{}) (err error) {
+func (s *ModelScopeFind) Find(elem interface{}, args ...interface{}) (err error) {
 	if s.Error != nil {
 		err = s.Error
 		return

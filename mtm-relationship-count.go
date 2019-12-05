@@ -10,7 +10,7 @@ func (s *ManyToManyRelationshipScope) BuildCount() (t *ManyToManyRelationshipSco
 	if s.Error != nil {
 		return
 	}
-	t.stmt = "select count(" + s.VPK + ") from `" + s.TableName + "` " + s.limitation(s.UPK)
+	t.stmt = "select count(" + s.VPK + ") from " + s.db.escaper + s.TableName + s.db.escaper + " " + s.limitation(s.UPK)
 	return
 }
 

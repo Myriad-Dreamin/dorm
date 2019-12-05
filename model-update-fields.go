@@ -14,9 +14,9 @@ func (s *ModelScope) BuildUpdateFields() (t *ModelScopeUpdateFields) {
 	t = &ModelScopeUpdateFields{ModelScope: s}
 
 	if s.partialSet {
-		t.stmt = "update `" + s.tableName + "` set " + s.fieldsTemplate(s.fields) + s.limitation("id")
+		t.stmt = "update " + s.db.escaper + s.tableName + s.db.escaper + " set " + s.fieldsTemplate(s.fields) + s.limitation("id")
 	} else {
-		t.stmt = "update `" + s.tableName + "` set " + s.fullFieldsTemplate() + s.limitation("id")
+		t.stmt = "update " + s.db.escaper + s.tableName + s.db.escaper + " set " + s.fullFieldsTemplate() + s.limitation("id")
 	}
 
 	return t
@@ -52,7 +52,7 @@ func (s *ModelScopeUpdateFields) Rebind(offset int64, offsetP interface{}) *Mode
 	return s
 }
 
-func (s *ModelScopeUpdateFields) UpdateFields(args... interface{}) (aff int64, err error) {
+func (s *ModelScopeUpdateFields) UpdateFields(args ...interface{}) (aff int64, err error) {
 	if s.Error != nil {
 		err = s.Error
 		return

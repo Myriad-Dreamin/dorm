@@ -10,14 +10,13 @@ type ModelScopeDelete struct {
 	stmt string
 }
 
-
 func (s *ModelScope) BuildDelete() (t *ModelScopeDelete) {
 	t = &ModelScopeDelete{ModelScope: s}
 	if s.Error != nil {
 		return
 	}
 
-	t.stmt = "delete from " + s.tableName + s.limitation("id")
+	t.stmt = "delete from " + s.db.escaper + s.tableName + s.db.escaper + s.limitation("id")
 	return
 }
 
@@ -51,7 +50,7 @@ func (s *ModelScopeDelete) Rebind(offset int64, offsetP interface{}) *ModelScope
 	return s
 }
 
-func (s *ModelScopeDelete) Delete(args...interface{}) (aff int64, err error) {
+func (s *ModelScopeDelete) Delete(args ...interface{}) (aff int64, err error) {
 	if s.Error != nil {
 		err = s.Error
 		return
@@ -59,4 +58,3 @@ func (s *ModelScopeDelete) Delete(args...interface{}) (aff int64, err error) {
 
 	return s.db.ExecStatement(s.decide(s.stmt), append(args, s.decideArgs(s.args)...)...)
 }
-
