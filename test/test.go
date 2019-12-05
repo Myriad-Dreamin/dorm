@@ -78,90 +78,90 @@ func (d User) GetID() uint {
 	return d.ID
 }
 
-
-func main() {
-	logger := NewFmtLogger()
-	db, err := dorm.Open(dsn, logger)
-	if err != nil {
-		logger.Error("error open", "error", err)
-	}
-
-	r, err := db.ManyToManyRelation(&Group{}, &User{},  dorm.RCommon{
-		UPK:       "group_id",
-		VPK:       "user_id",
-		TableName: "group_members",
-	})
-	fmt.Println(r)
-	if err != nil {
-		logger.Error("error open", "error", err)
-	}
-	var result []uint
-	fmt.Println(r.Anchor(&Group{ID:8}).Find(&result))
-	fmt.Println(result)
-
-	result = nil
-	fmt.Println(r.Anchor(&Group{ID:8}).Limit(5).Find(&result))
-	fmt.Println(result)
-
-	result = nil
-	fmt.Println(r.Anchor(&Group{ID:8}).Offset(5).Limit(5).Find(&result))
-	fmt.Println(result)
-
-	result = nil
-	fmt.Println(r.Anchor(&Group{ID:8}).Limit(5).Offset(1).Find(&result))
-	fmt.Println(result)
-
-
-	result = nil
-	fmt.Println(r.Anchor(&Group{ID:8}).Order("user_id desc").Find(&result))
-	fmt.Println(result)
-
-	result = nil
-	fmt.Println(r.Anchor(&Group{ID:8}).Order("user_id desc").Limit(5).Find(&result))
-	fmt.Println(result)
-
-	result = nil
-	fmt.Println(r.Anchor(&Group{ID:8}).Order("user_id desc").Offset(5).Limit(5).Find(&result))
-	fmt.Println(result)
-
-	result = nil
-	fmt.Println(r.Anchor(&Group{ID:8}).Order("user_id desc").Limit(5).Offset(1).Find(&result))
-	fmt.Println(result)
-
-
-	result = nil
-	fmt.Println(r.Anchor(&Group{ID:8}).Order("user_id desc").Where("user_id between ? and ?").Find(&result, 2, 5))
-	fmt.Println(result)
-
-	result = nil
-	fmt.Println(r.Anchor(&Group{ID:8}).Order("user_id desc").Where("user_id between ? and ?").Limit(5).Find(&result, 2, 5))
-	fmt.Println(result)
-
-	result = nil
-	fmt.Println(r.Anchor(&Group{ID:8}).Order("user_id desc").Where("user_id between ? and ?").Offset(5).Limit(5).Find(&result, 2, 5))
-	fmt.Println(result)
-
-	result = nil
-	fmt.Println(r.Anchor(&Group{ID:8}).Order("user_id desc").Where("user_id between ? and ?").Limit(5).Offset(1).Find(&result, 2, 5))
-	fmt.Println(result)
-
-
-	result = nil
-	fmt.Println(r.Anchor(&Group{ID:8}).Where("user_id between ? and ?").Find(&result, 2, 5))
-	fmt.Println(result)
-
-	result = nil
-	fmt.Println(r.Anchor(&Group{ID:8}).Where("user_id between ? and ?").Limit(5).Find(&result, 2, 5))
-	fmt.Println(result)
-
-	result = nil
-	fmt.Println(r.Anchor(&Group{ID:8}).Where("user_id between ? and ?").Offset(5).Limit(5).Find(&result, 2, 5))
-	fmt.Println(result)
-
-	result = nil
-	fmt.Println(r.Anchor(&Group{ID:8}).Where("user_id between ? and ?").Limit(5).Offset(1).Find(&result, 2, 5))
-	fmt.Println(result)
-
-	defer db.Close()
-
-}
+func main() {}
+//func main() {
+//	logger := NewFmtLogger()
+//	db, err := dorm.Open(dsn, logger)
+//	if err != nil {
+//		logger.Error("error open", "error", err)
+//	}
+//
+//	r, err := db.ManyToManyRelation(&Group{}, &User{},  dorm.RCommon{
+//		UPK:       "group_id",
+//		VPK:       "user_id",
+//		TableName: "group_members",
+//	})
+//	fmt.Println(r)
+//	if err != nil {
+//		logger.Error("error open", "error", err)
+//	}
+//	var result []uint
+//	fmt.Println(r.Anchor(&Group{ID:8}).Find(&result))
+//	fmt.Println(result)
+//
+//	result = nil
+//	fmt.Println(r.Anchor(&Group{ID:8}).Limit(5).Find(&result))
+//	fmt.Println(result)
+//
+//	result = nil
+//	fmt.Println(r.Anchor(&Group{ID:8}).Offset(5).Limit(5).Find(&result))
+//	fmt.Println(result)
+//
+//	result = nil
+//	fmt.Println(r.Anchor(&Group{ID:8}).Limit(5).Offset(1).Find(&result))
+//	fmt.Println(result)
+//
+//
+//	result = nil
+//	fmt.Println(r.Anchor(&Group{ID:8}).Order("user_id desc").Find(&result))
+//	fmt.Println(result)
+//
+//	result = nil
+//	fmt.Println(r.Anchor(&Group{ID:8}).Order("user_id desc").Limit(5).Find(&result))
+//	fmt.Println(result)
+//
+//	result = nil
+//	fmt.Println(r.Anchor(&Group{ID:8}).Order("user_id desc").Offset(5).Limit(5).Find(&result))
+//	fmt.Println(result)
+//
+//	result = nil
+//	fmt.Println(r.Anchor(&Group{ID:8}).Order("user_id desc").Limit(5).Offset(1).Find(&result))
+//	fmt.Println(result)
+//
+//
+//	result = nil
+//	fmt.Println(r.Anchor(&Group{ID:8}).Order("user_id desc").Where("user_id between ? and ?").Find(&result, 2, 5))
+//	fmt.Println(result)
+//
+//	result = nil
+//	fmt.Println(r.Anchor(&Group{ID:8}).Order("user_id desc").Where("user_id between ? and ?").Limit(5).Find(&result, 2, 5))
+//	fmt.Println(result)
+//
+//	result = nil
+//	fmt.Println(r.Anchor(&Group{ID:8}).Order("user_id desc").Where("user_id between ? and ?").Offset(5).Limit(5).Find(&result, 2, 5))
+//	fmt.Println(result)
+//
+//	result = nil
+//	fmt.Println(r.Anchor(&Group{ID:8}).Order("user_id desc").Where("user_id between ? and ?").Limit(5).Offset(1).Find(&result, 2, 5))
+//	fmt.Println(result)
+//
+//
+//	result = nil
+//	fmt.Println(r.Anchor(&Group{ID:8}).Where("user_id between ? and ?").Find(&result, 2, 5))
+//	fmt.Println(result)
+//
+//	result = nil
+//	fmt.Println(r.Anchor(&Group{ID:8}).Where("user_id between ? and ?").Limit(5).Find(&result, 2, 5))
+//	fmt.Println(result)
+//
+//	result = nil
+//	fmt.Println(r.Anchor(&Group{ID:8}).Where("user_id between ? and ?").Offset(5).Limit(5).Find(&result, 2, 5))
+//	fmt.Println(result)
+//
+//	result = nil
+//	fmt.Println(r.Anchor(&Group{ID:8}).Where("user_id between ? and ?").Limit(5).Offset(1).Find(&result, 2, 5))
+//	fmt.Println(result)
+//
+//	defer db.Close()
+//
+//}

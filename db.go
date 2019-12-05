@@ -3,6 +3,7 @@ package dorm
 import (
 	"database/sql"
 	"fmt"
+	"io"
 
 	_ "github.com/go-sql-driver/mysql"
 )
@@ -10,22 +11,29 @@ import (
 type Escaper string
 type DBType string
 
+type SQLCommon interface {
+	Exec(query string, args ...interface{}) (sql.Result, error)
+	Prepare(query string) (*sql.Stmt, error)
+	Query(query string, args ...interface{}) (*sql.Rows, error)
+	QueryRow(query string, args ...interface{}) *sql.Row
+}
+
 type DB struct {
-	*sql.DB
+	SQLCommon
 	escaper string
 	logger Logger
 }
 
 func (db *DB) Clone() *DB {
 	return &DB {
-		DB: db.DB,
+		SQLCommon: db.SQLCommon,
 		escaper: db.escaper,
 		logger: db.logger,
 	}
 }
 
-func (db *DB) FixSqlDB(rdb *sql.DB) *DB {
-	db.DB = rdb
+func (db *DB) FixSqlDB(rdb SQLCommon) *DB {
+	db.SQLCommon = rdb
 	return db
 }
 
@@ -59,7 +67,7 @@ func Open(dsn string, options ...interface{}) (*DB, error) {
 	if err != nil {
 		return nil, err
 	}
-	return (&DB{DB: rawDB, logger: nl}).parseOption(options), nil
+	return (&DB{SQLCommon: rawDB, logger: nl}).parseOption(options), nil
 }
 
 func IdleOpen(options ...interface{}) (*DB, error) {
@@ -67,12 +75,12 @@ func IdleOpen(options ...interface{}) (*DB, error) {
 }
 
 func FromRaw(rdb *sql.DB, options ...interface{}) (*DB, error) {
-	return (&DB{DB: rdb}).parseOption(options), nil
+	return (&DB{SQLCommon: rdb}).parseOption(options), nil
 }
 
 
 func (db *DB) Close() error {
-	return db.DB.Close()
+	return db.SQLCommon.(io.Closer).Close()
 }
 
 func (db *DB) ExecStatement(statement string, args ...interface{}) (int64, error) {
